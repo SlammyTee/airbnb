@@ -1,10 +1,13 @@
 import Image from "next/image";
 import ReservationSideBar from "@/app/components/properties/ReservationSideBar";
 import apiService from "@/app/services/apiService";
+import { getUserId } from "@/app/lib/action";
 
 const PropertyDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   // ✅ Await params here because Next.js treats it as a Promise in some versions
   const { id } = await params;
+
+  const userId = await getUserId();
 
   const property = await apiService.get(`/api/properties/${id}`);
 
@@ -53,6 +56,7 @@ const PropertyDetailsPage = async ({ params }: { params: Promise<{ id: string }>
 
         <ReservationSideBar 
             property={property.data}
+            userId={userId}
         />
       </div>
     </main>
